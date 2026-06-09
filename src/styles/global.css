@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500&display=swap');
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --purple:       #9390df;
+  --purple-deep:  #6b68c4;
+  --purple-light: #c8c7f5;
+  --purple-dim:   rgba(147,144,223,0.12);
+  --bg:           #08080f;
+  --bg-surface:   #10101c;
+  --bg-card:      #141424;
+  --white:        #f0efff;
+  --muted:        #7b7a9e;
+  --border:       rgba(147,144,223,0.15);
+  --ff-display:   'Syne', sans-serif;
+  --ff-body:      'Inter', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: var(--ff-body);
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--purple);
+  color: var(--bg);
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--purple-deep); border-radius: 2px; }
+
+/* Utility */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+@media (max-width: 768px) {
+  .container { padding: 0 20px; }
+}
+
+.logo > img {
+        width: 50px;
+}

@@ -1,0 +1,114 @@
+---
+import PricingLayout from '../../layouts/PricingLayout.astro';
+
+const tiers = [
+  {
+    name: 'Posts Pack',
+    price: '$199',
+    period: 'One-time package',
+    desc: 'A focused set of social posts to refresh your feed with a cohesive, on-brand aesthetic.',
+    features: [
+      '10 custom post designs',
+      'Feed-optimized layouts (1:1 & 4:5)',
+      'Brand colors & fonts applied',
+      'Caption text included',
+      'PNG + editable Canva files',
+      '2 revision rounds',
+      '5-day delivery',
+    ],
+  },
+  {
+    name: 'Content System',
+    price: '$549',
+    period: 'One-time package',
+    desc: 'A full social media design system — posts, stories, covers, and a poster. Everything you need to own your feed.',
+    features: [
+      '20 custom post designs',
+      '10 Story / Reel cover templates',
+      '3 poster designs (A4 + digital)',
+      'Highlight cover icons (12 icons)',
+      'Instagram grid layout plan',
+      'Editable Canva + Figma files',
+      'Branded color & font guide',
+      'Unlimited revisions',
+      '10-day delivery',
+    ],
+    featured: true,
+    cta: 'Get the System',
+  },
+  {
+    name: 'Catalog Design',
+    price: '$449',
+    period: 'Per catalog',
+    desc: 'A beautifully designed product or service catalog — digital-first, print-ready, and on-brand.',
+    features: [
+      'Up to 20 catalog pages',
+      'Custom layout & grid system',
+      'Product photography placement',
+      'Typography hierarchy',
+      'Print-ready PDF export',
+      'Digital / web PDF version',
+      'Branded cover + back page',
+      '2 revision rounds',
+      '10-day delivery',
+    ],
+    cta: 'Order a Catalog',
+  },
+  {
+    name: 'Monthly Retainer',
+    price: '$799',
+    period: 'Per month',
+    desc: 'Ongoing design support — fresh content every month so your social presence never goes stale.',
+    features: [
+      '30 post designs / month',
+      '10 story templates / month',
+      '2 posters or promotional banners',
+      'Monthly content calendar',
+      'Unlimited design requests',
+      'Priority 48h turnaround',
+      'Dedicated design manager',
+      'Cancel anytime',
+    ],
+    cta: 'Start Monthly',
+  },
+];
+
+const faqs = [
+  {
+    q: 'Do I get editable files?',
+    a: 'Yes. All designs are delivered as PNG exports ready to post, plus editable Canva templates so your team can swap text, images, and minor details without needing a designer every time.',
+  },
+  {
+    q: 'Can you match my existing brand style?',
+    a: 'Absolutely. Send us your brand guidelines, color palette, and font names and we will build every design to match. If you do not have guidelines yet, we can define a consistent visual style as part of the project.',
+  },
+  {
+    q: 'What is the difference between posts and posters?',
+    a: 'Posts are square or portrait formats optimized for Instagram, Facebook, and LinkedIn feeds (1:1 or 4:5 ratio). Posters are larger format designs (A3, A4, or custom) used for print, event promotion, or digital display.',
+  },
+  {
+    q: 'How does the Monthly Retainer work?',
+    a: 'Each month you submit a content brief or we create one together based on your calendar. We design and deliver all assets within the first 10 days so you have the full month to schedule and post. You can cancel any time with 7 days notice.',
+  },
+  {
+    q: 'Can you design for multiple platforms?',
+    a: 'Yes — we cover Instagram, Facebook, LinkedIn, TikTok, Pinterest, and X. Each post is exported in the correct dimensions for each platform, no extra cost.',
+  },
+];
+
+const otherServices = [
+  { label: 'Brand Identity',        href: '/pricing/brand-identity' },
+  { label: 'AI Video for Products', href: '/pricing/ai-video' },
+  { label: '3D Modeling',           href: '/pricing/3d-modeling' },
+];
+---
+
+<PricingLayout
+  title="Social Media Design Pricing — 26.MH Studio"
+  eyebrow="Service / 03"
+  headline="Social Media <em>Design</em>"
+  subline="Posts, posters, catalogs, and full content systems. We design the visual language that stops the scroll and owns the feed."
+  tiers={tiers}
+  faqs={faqs}
+  otherServices={otherServices}
+/>
