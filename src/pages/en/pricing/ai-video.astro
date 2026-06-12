@@ -1,0 +1,8 @@
+---
+import PricingLayout from '../../../layouts/PricingLayout.astro';
+import { pricingTranslations } from '../../../i18n/translations';
+import type { Locale } from '../../../i18n/translations';
+const locale: Locale = 'en';
+const p = pricingTranslations[locale].aiVideo;
+---
+<PricingLayout locale={locale} seoTitle={p.eyebrow + ' — 26.MH Studio'} eyebrow={p.eyebrow} headline={p.headline} subline={p.subline} tiers={p.tiers} faqs={p.faqs} otherServices={p.otherServices} />

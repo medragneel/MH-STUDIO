@@ -1,0 +1,95 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Reveal from '../../../components/Reveal.astro';
+import Orbs from '../../../components/Orbs.astro';
+import { useT, isRTL, localePath } from '../../../i18n/translations';
+import type { Locale } from '../../../i18n/translations';
+const locale: Locale = 'en';
+const tr = useT(locale);
+const rtl = isRTL(locale);
+const label3d = locale === 'ar' ? 'النمذجة ثلاثية الأبعاد' : locale === 'fr' ? 'Modélisation 3D' : '3D Modeling';
+const comingSoon = locale === 'ar' ? 'قريباً' : locale === 'fr' ? 'Bientôt' : 'Coming Soon';
+const notifyLabel = locale === 'ar' ? 'أعلمني عند الإطلاق' : locale === 'fr' ? 'Me notifier au lancement' : 'Notify me at launch';
+const emailPlaceholder = locale === 'ar' ? 'بريدك الإلكتروني' : locale === 'fr' ? 'votre@email.com' : 'your@email.com';
+const inDev = locale === 'ar' ? 'قيد التطوير' : locale === 'fr' ? 'En développement' : 'In development';
+const progress = locale === 'ar' ? '~٧٠٪ مكتمل' : locale === 'fr' ? '~70% terminé' : '~70% complete';
+---
+<Layout locale={locale} title={`${label3d} — ${comingSoon} — 26.MH Studio`}>
+  <section class="cs-section">
+    <Orbs />
+    <div class={`container cs-inner${rtl ? ' rtl' : ''}`}>
+      <Reveal>
+        <a href={localePath(locale, '/#services')} class="back-link">
+          {rtl
+            ? <><span>{tr.pricing.backLink}</span><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 10h12M10 4l6 6-6 6"/></svg></>
+            : <><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M16 10H4M10 4l-6 6 6 6"/></svg><span>{tr.pricing.backLink}</span></>
+          }
+        </a>
+        <div class="cs-badge">{comingSoon}</div>
+        <h1 class="cs-title">{label3d.split(' ').map((w, i) => i === (rtl ? 0 : label3d.split(' ').length - 1) ? <em>{w} </em> : <span>{w} </span>)}</h1>
+        <div class="cs-preview">
+          <div class="cube-wrap" aria-hidden="true">
+            <div class="cube">
+              <div class="face front"></div><div class="face back"></div>
+              <div class="face left"></div><div class="face right"></div>
+              <div class="face top"></div><div class="face bottom"></div>
+            </div>
+          </div>
+          <div class="cs-preview-text">
+            <span>{inDev}</span>
+            <div class="progress-bar"><div class="progress-fill"></div></div>
+            <span class="prog-label">{progress}</span>
+          </div>
+        </div>
+        <div class="cs-notify">
+          <h3>{notifyLabel}</h3>
+          <form class="notify-form" onsubmit="handleNotify(event)">
+            <input type="email" placeholder={emailPlaceholder} required />
+            <button type="submit">{notifyLabel} →</button>
+          </form>
+          <div id="success-msg" class="success-msg" style="display:none">✓</div>
+        </div>
+      </Reveal>
+    </div>
+  </section>
+</Layout>
+<style>
+.cs-section{min-height:100vh;padding:160px 0 120px;position:relative;overflow:hidden}
+.cs-inner{position:relative;z-index:2}
+.cs-inner.rtl{text-align:right;direction:rtl}
+.back-link{display:inline-flex;align-items:center;gap:8px;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;margin-bottom:40px;transition:color 0.2s}
+.back-link:hover{color:var(--purple)}
+.back-link svg{width:16px;height:16px}
+.cs-badge{display:inline-block;background:rgba(147,144,223,0.12);color:var(--purple);border:1px solid var(--border);border-radius:20px;font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;padding:6px 16px;margin-bottom:28px}
+.cs-title{font-family:'Syne',sans-serif;font-size:clamp(52px,8vw,110px);font-weight:800;letter-spacing:-0.04em;line-height:0.92;margin-bottom:60px}
+.cs-title em{font-style:italic;color:var(--purple)}
+.cs-preview{display:flex;align-items:center;gap:48px;margin-bottom:80px;flex-wrap:wrap}
+.cube-wrap{width:100px;height:100px;perspective:350px;flex-shrink:0}
+.cube{width:100%;height:100%;transform-style:preserve-3d;animation:rotateCube 8s linear infinite}
+@keyframes rotateCube{from{transform:rotateX(20deg) rotateY(0deg)}to{transform:rotateX(20deg) rotateY(360deg)}}
+.face{position:absolute;width:100px;height:100px;border:1px solid rgba(147,144,223,0.3);background:rgba(147,144,223,0.04)}
+.front{transform:translateZ(50px)}.back{transform:rotateY(180deg) translateZ(50px)}
+.left{transform:rotateY(-90deg) translateZ(50px)}.right{transform:rotateY(90deg) translateZ(50px)}
+.top{transform:rotateX(90deg) translateZ(50px)}.bottom{transform:rotateX(-90deg) translateZ(50px)}
+.cs-preview-text{display:flex;flex-direction:column;gap:10px}
+.cs-preview-text span{font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted)}
+.progress-bar{width:200px;height:2px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;width:70%;background:linear-gradient(90deg,var(--purple-deep),var(--purple-light));border-radius:2px;animation:loadFill 1.5s cubic-bezier(0.16,1,0.3,1) both;animation-delay:0.5s}
+@keyframes loadFill{from{width:0}to{width:70%}}
+.prog-label{color:var(--purple)!important;font-weight:600}
+.cs-notify{background:var(--bg-card);border:1px solid var(--border);padding:48px;max-width:560px}
+.cs-inner.rtl .cs-notify{margin-right:0}
+.cs-notify h3{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:24px}
+.notify-form{display:flex;gap:0}
+.notify-form input{flex:1;background:var(--bg-surface);border:1px solid var(--border);border-right:none;padding:13px 18px;color:var(--white);font-family:var(--ff-body);font-size:0.9rem;outline:none;transition:border-color 0.2s}
+.cs-inner.rtl .notify-form input{border-right:1px solid var(--border);border-left:none}
+.notify-form input:focus{border-color:var(--purple)}
+.notify-form input::placeholder{color:var(--muted)}
+.notify-form button{background:var(--purple);color:var(--bg);border:none;padding:13px 24px;cursor:pointer;font-family:'Syne',sans-serif;font-size:0.78rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;transition:background 0.2s;white-space:nowrap}
+.notify-form button:hover{background:var(--purple-light)}
+.success-msg{margin-top:14px;font-size:0.85rem;color:var(--purple);font-weight:600}
+@media(max-width:600px){.cs-notify{padding:28px 20px}.notify-form{flex-direction:column}.notify-form input{border-right:1px solid var(--border)!important;border-bottom:none}}
+</style>
+<script>
+function handleNotify(e: Event){e.preventDefault();(e.target as HTMLFormElement).style.display='none';const m=document.getElementById('success-msg');if(m)m.style.display='block';}
+</script>
