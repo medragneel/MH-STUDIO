@@ -1,0 +1,161 @@
+---
+interface Props {
+  locale?: string;
+}
+const { locale = 'en' } = Astro.props;
+
+const labels = {
+  ar: { seeAll: 'عرض الكل على إنستقرام ↗' },
+  en: { seeAll: 'See all on Instagram ↗' },
+  fr: { seeAll: 'Voir tout sur Instagram ↗' },
+};
+const l = labels[locale as keyof typeof labels] ?? labels.en;
+
+const posts = [
+  {
+    url: 'https://www.instagram.com/p/DZco0lDCkza/',
+    embedCode: `<blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/DZco0lDCkza/" data-instgrm-version="14" style="background:#0e0e1a;border:1px solid rgba(147,144,223,0.2);border-radius:0;box-shadow:none;display:block;margin:0;max-width:100%;min-width:0;padding:0;width:100%;"></blockquote>`,
+  },
+  {
+    url: 'https://www.instagram.com/p/DZXg45_EefC/',
+    embedCode: `<blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/DZXg45_EefC/" data-instgrm-version="14" style="background:#0e0e1a;border:1px solid rgba(147,144,223,0.2);border-radius:0;box-shadow:none;display:block;margin:0;max-width:100%;min-width:0;padding:0;width:100%;"></blockquote>`,
+  },
+  {
+    url: 'https://www.instagram.com/p/DZaGA9WDDb_/',
+    embedCode: `<blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/DZaGA9WDDb_/" data-instgrm-version="14" style="background:#0e0e1a;border:1px solid rgba(147,144,223,0.2);border-radius:0;box-shadow:none;display:block;margin:0;max-width:100%;min-width:0;padding:0;width:100%;"></blockquote>`,
+  },
+  {
+    url: 'https://www.instagram.com/p/DV897uwiIFd/',
+    embedCode: `<blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/DV897uwiIFd/?img_index=1" data-instgrm-version="14" style="background:#0e0e1a;border:1px solid rgba(147,144,223,0.2);border-radius:0;box-shadow:none;display:block;margin:0;max-width:100%;min-width:0;padding:0;width:100%;"></blockquote>`,
+  },
+  {
+    url: 'https://www.instagram.com/p/DYPHNG2IULv/',
+    embedCode: `<blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/DYPHNG2IULv/" data-instgrm-version="14" style="background:#0e0e1a;border:1px solid rgba(147,144,223,0.2);border-radius:0;box-shadow:none;display:block;margin:0;max-width:100%;min-width:0;padding:0;width:100%;"></blockquote>`,
+  },
+  {
+    url: 'https://www.instagram.com/p/DXt6i1MiAAl/',
+    embedCode: `<blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/DXt6i1MiAAl/?img_index=1" data-instgrm-version="14" style="background:#0e0e1a;border:1px solid rgba(147,144,223,0.2);border-radius:0;box-shadow:none;display:block;margin:0;max-width:100%;min-width:0;padding:0;width:100%;"></blockquote>`,
+  },
+];
+---
+
+<div class="ig-wrap">
+  <div class="ig-grid">
+    {posts.map((post) => (
+      <div class="ig-cell">
+        <div class="ig-embed" set:html={post.embedCode} />
+      </div>
+    ))}
+  </div>
+
+  <div class="ig-footer">
+    <a
+      href="https://www.instagram.com/26.mh_studio/"
+      target="_blank"
+      rel="noopener"
+      class="ig-see-all"
+    >
+      {l.seeAll}
+    </a>
+  </div>
+</div>
+
+<script>
+  // Re-process embeds after page load (handles dynamic/SPA navigation too)
+  function processEmbeds() {
+    if ((window as any).instgrm) {
+      (window as any).instgrm.Embeds.process();
+    }
+  }
+
+  // If embed.js already loaded, process immediately
+  processEmbeds();
+
+  // Otherwise wait for it
+  const existing = document.getElementById('ig-embed-script');
+  if (!existing) {
+    const s = document.createElement('script');
+    s.id  = 'ig-embed-script';
+    s.src = 'https://www.instagram.com/embed.js';
+    s.async = true;
+    s.onload = processEmbeds;
+    document.body.appendChild(s);
+  } else {
+    existing.addEventListener('load', processEmbeds);
+  }
+</script>
+
+<style>
+.ig-wrap { width: 100%; }
+
+.ig-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  background: var(--border);
+}
+
+/* ── Cell ── */
+.ig-cell {
+  background: var(--bg-card);
+  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  min-height: 420px;
+}
+
+/* ── Embed container ── */
+.ig-embed {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Override Instagram's inline styles to fill the cell */
+.ig-embed :global(blockquote.instagram-media) {
+  min-width:    0    !important;
+  width:        100% !important;
+  max-width:    100% !important;
+  margin:       0    !important;
+  border-radius:0    !important;
+  box-shadow:   none !important;
+  flex:         1;
+}
+
+/* The iframe Instagram injects */
+.ig-embed :global(iframe) {
+  display: block !important;
+  width:   100%  !important;
+}
+
+/* ── Footer ── */
+.ig-footer {
+  padding: 28px 0 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.ig-see-all {
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 3px;
+  transition: color 0.2s, border-color 0.2s;
+}
+.ig-see-all:hover {
+  color: var(--purple);
+  border-color: var(--purple);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .ig-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .ig-grid { grid-template-columns: 1fr; }
+}
+</style>

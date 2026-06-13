@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Reveal from '../../components/Reveal.astro';
 import Orbs from '../../components/Orbs.astro';
+import InstagramGrid from '../../components/InstagramGrid.astro';
 import { useT, isRTL, localePath, type Locale } from '../../i18n/translations';
 
 const locale: Locale = 'fr';
@@ -105,6 +106,8 @@ const works = [
           <a href="https://www.instagram.com/26.mh_studio/" target="_blank" rel="noopener" class="btn-outline sm">{tr.sections.seeInstagram}</a>
         </div>
       </Reveal>
+      <InstagramGrid locale={locale} />
+
       <div class="work-grid">
         {works.map((w, i) => (
           <Reveal delay={i * 60}>
