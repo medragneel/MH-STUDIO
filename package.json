@@ -9,7 +9,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "thumbnails": "node scripts/generate-thumbnails.mjs",
+    "prebuild": "node scripts/generate-thumbnails.mjs"
   },
   "dependencies": {
     "astro": "^6.4.4"
