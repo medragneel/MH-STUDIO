@@ -177,8 +177,9 @@ const works = [
         <h2 class="contact-title">{tr.sections.haveProject}<br/><em>{tr.sections.haveProjectEm}</em></h2>
         <p class="contact-sub">{tr.sections.contactSub}</p>
         <div class="contact-actions">
-          <a href="mailto:mh.studio.26@outlook.com" class="btn-primary lg">{tr.sections.sendMessage}</a>
-          <a href="https://www.instagram.com/26.mh_studio/" target="_blank" rel="noopener" class="btn-outline">{tr.sections.dmInstagram}</a>
+          <a href="mailto:mh.studio.26@outlook.com" class="btn-primary lg" onclick="fbq('track', 'Contact')">{tr.sections.sendMessage}</a>
+
+          <a href="https://www.instagram.com/26.mh_studio/" target="_blank" rel="noopener" class="btn-outline" onclick="fbq('track', 'Contact')">{tr.sections.dmInstagram}</a>
         </div>
       </Reveal>
     </div>

@@ -14,6 +14,12 @@ const { locale, seoTitle, data } = Astro.props;
 const tr = useT(locale);
 const rtl = isRTL(locale);
 ---
+<script>
+  fbq('track', 'ViewContent', {
+    content_name: document.title,
+    content_category: 'Pricing',
+  });
+</script>
 <Layout title={seoTitle} locale={locale}>
   <section class="ph-hero">
     <Orbs />
@@ -139,7 +145,7 @@ const rtl = isRTL(locale);
       <Reveal>
         <h2>{tr.pricing.readyTitle} <em>{tr.pricing.readyTitleEm}</em></h2>
         <p>{tr.pricing.readySub}</p>
-        <a href="mailto:hello@26mhstudio.com" class="btn-cta">{tr.pricing.sendMsg}</a>
+        <a href="mailto:hello@26mhstudio.com" class="btn-cta" onclick="fbq('track', 'InitiateCheckout')">{tr.pricing.sendMsg}</a>
       </Reveal>
     </div>
   </section>

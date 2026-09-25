@@ -22,6 +22,12 @@ const { locale, seoTitle, eyebrow, headline, subline, tiers, faqs = [], otherSer
 const tr = useT(locale);
 const rtl = isRTL(locale);
 ---
+<script>
+  fbq('track', 'ViewContent', {
+    content_name: document.title,
+    content_category: 'Pricing',
+  });
+</script>
 <Layout title={seoTitle} locale={locale}>
   <section class="ph-hero">
     <Orbs />
@@ -61,7 +67,7 @@ const rtl = isRTL(locale);
                   </li>
                 ))}
               </ul>
-              <a href={`/${locale}/#contact`} class={`tier-btn${tier.featured ? ' tier-btn-featured' : ''}`}>
+              <a href={`/${locale}/#contact`} class={`tier-btn${tier.featured ? ' tier-btn-featured' : ''}`}  onclick={`fbq('track', 'Lead', { content_name: '${tier.name}', value: 0, currency: 'DZD' })`}>
                 {tier.cta ?? tr.pricing.getStarted} →
               </a>
             </div>
@@ -121,7 +127,7 @@ const rtl = isRTL(locale);
       <Reveal>
         <h2>{tr.pricing.readyTitle} <em>{tr.pricing.readyTitleEm}</em></h2>
         <p>{tr.pricing.readySub}</p>
-        <a href="mailto:hello@26mhstudio.com" class="btn-cta">{tr.pricing.sendMsg}</a>
+        <a href="mailto:hello@26mhstudio.com" class="btn-cta" onclick="fbq('track', 'InitiateCheckout')">{tr.pricing.sendMsg}</a>
       </Reveal>
     </div>
   </section>
