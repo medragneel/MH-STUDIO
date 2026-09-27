@@ -686,6 +686,11 @@ footer {
 
   #site-nav {
     padding: 18px 0;
+    /* Always show a background on mobile so content behind nav is hidden */
+    background: rgba(8, 8, 15, 0.93);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
   }
 
   #site-nav.scrolled {
@@ -693,10 +698,11 @@ footer {
   }
 
 
-  /* BURGER */
+  /* BURGER — stays above the fullscreen overlay */
 
   .burger {
     display: flex;
+    z-index: 210;
   }
 
 
@@ -716,6 +722,7 @@ footer {
     align-items: center;
 
     justify-content: center;
+    height: fit-content;
 
     gap: 30px;
 
@@ -749,7 +756,7 @@ footer {
       transform 0.3s ease;
   }
 
-    .rtl .nav-links {
+.rtl .nav-links {
   flex-direction: column;
 }
 
@@ -962,21 +969,26 @@ footer {
 
 
 <script>
-  const nav = document.getElementById('site-nav');
-  const burger = document.getElementById('burger');
+  const nav      = document.getElementById('site-nav');
+  const burger   = document.getElementById('burger');
   const navLinks = document.getElementById('nav-links');
 
-  // Scroll effect
-  window.addEventListener('scroll', () => {
+  // ── Scroll: only update when menu is closed ──────────────
+  function updateScrolled() {
+    if (navLinks?.classList.contains('open')) return; // don't fight the open menu
     nav?.classList.toggle('scrolled', window.scrollY > 40);
-  });
+  }
+  window.addEventListener('scroll', updateScrolled, { passive: true });
 
-  // Mobile menu
+  // ── Menu helpers ─────────────────────────────────────────
   const closeMenu = () => {
     burger?.classList.remove('active');
     navLinks?.classList.remove('open');
     document.body.style.overflow = '';
     burger?.setAttribute('aria-expanded', 'false');
+
+    // Re-apply scroll state now that menu is closed
+    nav?.classList.toggle('scrolled', window.scrollY > 40);
   };
 
   const openMenu = () => {
@@ -984,34 +996,30 @@ footer {
     navLinks?.classList.add('open');
     document.body.style.overflow = 'hidden';
     burger?.setAttribute('aria-expanded', 'true');
+
+    // Always show solid nav background while menu is open
+    nav?.classList.add('scrolled');
   };
 
   burger?.addEventListener('click', () => {
-    const isOpen = navLinks?.classList.contains('open');
-
-    if (isOpen) {
-      closeMenu();
-    } else {
-      openMenu();
-    }
+    navLinks?.classList.contains('open') ? closeMenu() : openMenu();
   });
 
-  // Close when clicking a navigation link
-  navLinks?.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', closeMenu);
+  // Close on nav link click
+  navLinks?.querySelectorAll('a').forEach(link =>
+    link.addEventListener('click', closeMenu)
+  );
+
+  // Close on Escape
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeMenu();
   });
 
-  // Close with Escape
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') {
-      closeMenu();
-    }
-  });
-
-  // Close menu if viewport becomes desktop size
+  // Close + reset on resize to desktop
   window.addEventListener('resize', () => {
-    if (window.innerWidth > 900) {
-      closeMenu();
-    }
+    if (window.innerWidth > 900) closeMenu();
   });
+
+  // Run once on load so the nav is correct if user lands mid-page
+  updateScrolled();
 </script>
